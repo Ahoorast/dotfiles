@@ -1,6 +1,5 @@
-packadd! dracula
 syntax on
-colorscheme dracula
+colorscheme torte
 
 
 set nu

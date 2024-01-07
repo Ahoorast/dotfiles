@@ -64,6 +64,8 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+    -- copilot
+    'github/copilot.vim',
     {
         'themaxmarchuk/tailwindcss-colors.nvim',
         -- load only on require("tailwindcss-colors")
@@ -81,6 +83,8 @@ require('lazy').setup({
 
     -- Detect tabstop and shiftwidth automatically
     'tpope/vim-sleuth',
+
+    'ThePrimeagen/harpoon',
 
     -- NOTE: This is where your plugins related to LSP can be installed.
     --  The configuration is done below. Search for lspconfig to find it below.
@@ -159,13 +163,20 @@ require('lazy').setup({
         },
     },
 
+    -- {
+    --     -- Theme inspired by Atom
+    --     'navarasu/onedark.nvim',
+    --     priority = 1000,
+    --     config = function()
+    --         vim.cmd.colorscheme 'onedark'
+    --     end,
+    -- },
+    --
     {
-        -- Theme inspired by Atom
-        'navarasu/onedark.nvim',
+        "folke/tokyonight.nvim",
+        lazy = false,
         priority = 1000,
-        config = function()
-            vim.cmd.colorscheme 'onedark'
-        end,
+        opts = {},
     },
 
     {
@@ -224,6 +235,15 @@ require('lazy').setup({
         build = ':TSUpdate',
     },
 
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        opts = {} -- this is equalent to setup({}) function
+    },
+
+    'windwp/nvim-ts-autotag',
+    'mbbill/undotree',
+
     -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
     --       These are some example plugins that I've included in the kickstart repository.
     --       Uncomment any of the lines below to enable them.
@@ -237,8 +257,52 @@ require('lazy').setup({
     --
     --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
     -- { import = 'custom.plugins' },
+
 }, {})
 
+require("nvim-ts-autotag").setup({
+    filetypes = { 'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'svelte', 'vue', 'tsx', 'jsx',
+        'rescript',
+        'xml',
+        'php',
+        'markdown',
+        'astro', 'glimmer', 'handlebars', 'hbs', "htmldjango" }
+})
+
+require("tokyonight").setup({
+    -- or leave it empty to use the default settings
+    style = "moon",          -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+    light_style = "day",     -- The theme is used when the background is set to light
+    transparent = false,     -- Enable this to disable setting the background color
+    terminal_colors = false, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
+    styles = {
+        -- Style to be applied to different syntax groups
+        -- Value is any valid attr-list value for `:help nvim_set_hl`
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = {},
+        variables = {},
+        -- Background styles. Can be "dark", "transparent" or "normal"
+        sidebars = "dark",            -- style for sidebars, see below
+        floats = "dark",              -- style for floating windows
+    },
+    sidebars = { "qf", "help" },      -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+    day_brightness = 0.3,             -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+    hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+    dim_inactive = false,             -- dims inactive windows
+    lualine_bold = false,             -- When `true`, section headers in the lualine theme will be bold
+
+    --- You can override specific color groups to use other groups or a hex color
+    --- function will be called with a ColorScheme table
+    -- ---@param colors ColorScheme
+    -- on_colors = function(colors) end,
+
+    --- You can override specific highlights to use other groups or a hex color
+    --- function will be called with a Highlights and ColorScheme table
+    -- ---@param highlights Highlights
+    -- ---@param colors ColorScheme
+    -- on_highlights = function(highlights, colors) end,
+})
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -255,8 +319,12 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
-
+-- vim.o.clipboard = 'unnamedplus'
+--
+-- next greatest remap ever : asbjornHaland
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
+--
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -278,14 +346,16 @@ vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
+-- vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
+-- my keymaps
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', '<leader>pv', ':e #<Enter>', { silent = true })
+vim.keymap.set("n", "<leader>pf", vim.cmd.Ex)
 vim.keymap.set('i', 'ii', '<Esc>', { silent = true })
 
 -- Remap for dealing with word wrap
@@ -346,11 +416,14 @@ vim.defer_fn(function()
         -- Add languages to be installed here that you want installed for treesitter
         ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc',
             'vim',
-            'bash', 'svelte', 'html', 'htmldjango', 'jsdoc', 'java', 'solidity' },
+            'bash', 'svelte', 'html', 'htmldjango', 'jsdoc', 'java', 'solidity', 'css', 'dockerfile', 'gomod', 'gosum',
+            'json' },
 
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-        auto_install = false,
-
+        auto_install = true,
+        autotag = {
+            enable = true,
+        },
         highlight = { enable = true },
         indent = { enable = true },
         incremental_selection = {
@@ -415,6 +488,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -458,8 +532,15 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
         vim.lsp.buf.format()
     end, { desc = 'Format current buffer with LSP' })
-    require('tailwindcss-colors').buf_attach(bufnr)
+    local tailwind_lsp_filter = {}
+    tailwind_lsp_filter["bufnr"] = bufnr
+    tailwind_lsp_filter["name"] = "tailwindcss"
+    local tailwind_active = vim.lsp.get_active_clients(tailwind_lsp_filter)
+    if #tailwind_active > 0 then
+        require('tailwindcss-colors').buf_attach(bufnr)
+    end
 end
+
 
 -- document existing key chains
 require('which-key').register {
@@ -486,17 +567,25 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-    clangd = {},
-    -- gopls = {},
+    clangd = {
+        cmd = {
+            "clangd",
+            "styleguide=webkit",
+        },
+    },
+    gopls = {},
     pyright = {},
     rust_analyzer = {},
-    tsserver = {},
-    html = { filetypes = { 'html', 'twig', 'hbs' } },
+    tsserver = { filetypes = { "htmldjango", "js", "ts", "html", "javascript", "typescript", "svelte" } },
+    html = { filetypes = { 'html', 'twig', 'hbs', 'htmldjango' } },
     lua_ls = {
         Lua = {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
         },
+    },
+    vuels = {
+        filetypes = { 'vue' }
     },
 }
 
@@ -585,6 +674,16 @@ vim.opt.sw = 4
 vim.opt.sts = 4
 --
 
+
+-- harpoon keymaps
+vim.keymap.set("n", "<leader>mf", function()
+    require("harpoon.mark").add_file()
+end)
+vim.keymap.set("n", "<leader>hr", function()
+    require("harpoon.ui").toggle_quick_menu()
+end)
+
+
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
@@ -594,6 +693,64 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+
+
 vim.opt.relativenumber = true
+
+
+-- creates new file in the current buffer
+vim.keymap.set("n", "<leader>nf", function()
+    local current_dir = vim.fn.expand("%:p:h")
+    local new_file = vim.fn.input("New File: " .. current_dir .. "/")
+    if new_file == "" then
+        return
+    end
+    local new_file_path = current_dir .. "/" .. new_file
+    if vim.fn.filereadable(new_file_path) == 1 then
+        print("File already exists")
+        return
+    end
+    vim.cmd("e %:p:h/" .. new_file)
+end)
+
+-- creates new folder in the current buffer
+vim.keymap.set("n", "<leader>nd", function()
+    local current_dir = vim.fn.expand("%:p:h")
+    local new_folder = vim.fn.input("New Folder: " .. current_dir .. "/")
+    if new_folder == "" then
+        return
+    end
+    local new_folder_path = current_dir .. "/" .. new_folder
+    if vim.fn.isdirectory(new_folder_path) == 1 then
+        print("Folder already exists")
+        return
+    end
+    vim.fn.mkdir(new_folder_path)
+end)
+
+-- Copilot
+vim.cmd [[imap <silent><script><expr> <C-a> copilot#Accept("\<CR>")]]
+vim.cmd [[highlight CopilotSuggestion guifg=#555555 ctermfg=8]]
+
+vim.keymap.set("n", "<leader>lsa", function()
+    local str = ""
+    str = str .. #vim.lsp.get_active_clients()
+    str = str .. ", "
+    for i, t in ipairs(vim.lsp.get_active_clients()) do
+        str = str .. t.name
+        str = str .. ", "
+    end
+    print(str)
+end)
+
+-- vim.cmd [[highlight Normal guibg=none]]
+-- vim.cmd [[highlight NonText guibg=none]]
+-- vim.cmd [[highlight Normal ctermbg=none]]
+-- vim.cmd [[highlight NonText ctermbg=none]]
+
+vim.cmd [[colorscheme tokyonight]]
+
+-- undotree
+vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>:UndotreeFocus<CR>")
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=4 sts=4 sw=4 et

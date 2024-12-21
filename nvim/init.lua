@@ -64,8 +64,11 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+    { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+    --
     -- copilot
-    'github/copilot.vim',
+    -- 'gptlang/CopilotChat.nvim',
+    -- 'github/copilot.vim',
     {
         'themaxmarchuk/tailwindcss-colors.nvim',
         -- load only on require("tailwindcss-colors")
@@ -77,6 +80,44 @@ require('lazy').setup({
     },
     -- NOTE: First, some plugins that don't require any configuration
 
+    { -- Collection of various small independent plugins/modules
+        'echasnovski/mini.nvim',
+        config = function()
+            -- Better Around/Inside textobjects
+            --
+            -- Examples:
+            --  - va)  - [V]isually select [A]round [)]paren
+            --  - yinq - [Y]ank [I]nside [N]ext [']quote
+            --  - ci'  - [C]hange [I]nside [']quote
+            require('mini.ai').setup { n_lines = 500 }
+
+            -- Add/delete/replace surroundings (brackets, quotes, etc.)
+            --
+            -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+            -- - sd'   - [S]urround [D]elete [']quotes
+            -- - sr)'  - [S]urround [R]eplace [)] [']
+            require('mini.surround').setup()
+
+            -- Simple and easy statusline.
+            --  You could remove this setup call if you don't like it,
+            --  and try some other statusline plugin
+            local statusline = require 'mini.statusline'
+            -- set use_icons to true if you have a Nerd Font
+            statusline.setup { use_icons = vim.g.have_nerd_font }
+
+            -- You can configure sections in the statusline by overriding their
+            -- default behavior. For example, here we set the section for
+            -- cursor location to LINE:COLUMN
+            ---@diagnostic disable-next-line: duplicate-set-field
+            statusline.section_location = function()
+                return '%2l:%-2v'
+            end
+
+            -- ... and there is more!
+            --  Check out: https://github.com/echasnovski/mini.nvim
+        end,
+    },
+
     -- Git related plugins
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
@@ -84,8 +125,13 @@ require('lazy').setup({
     -- Detect tabstop and shiftwidth automatically
     'tpope/vim-sleuth',
 
-    'ThePrimeagen/harpoon',
-
+    {
+        'ThePrimeagen/harpoon',
+        branch = "harpoon2",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+    },
     -- NOTE: This is where your plugins related to LSP can be installed.
     --  The configuration is done below. Search for lspconfig to find it below.
     {
@@ -242,12 +288,25 @@ require('lazy').setup({
     },
 
     'windwp/nvim-ts-autotag',
+
     'mbbill/undotree',
 
+    {
+        'stevearc/oil.nvim',
+        opts = {},
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    --
+    'tweekmonster/django-plus.vim',
     -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
     --       These are some example plugins that I've included in the kickstart repository.
     --       Uncomment any of the lines below to enable them.
-    require 'kickstart.plugins.autoformat',
+
+    {
+        'stevearc/conform.nvim',
+        opts = {},
+    },
     require 'kickstart.plugins.debug',
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -260,20 +319,57 @@ require('lazy').setup({
 
 }, {})
 
-require("nvim-ts-autotag").setup({
+
+require("conform").setup({
+    formatters_by_ft = {
+        -- lua = { "stylua" },
+        --   Conform will run multiple formatters sequentially
+        -- python = { "isort", "black" },
+        -- Use a sub-list to run only the first available formatter
+        javascript = { { "prettierd", "prettier" } },
+    },
+})
+
+
+local function formatRange()
+    -- local start_line = vim.fn.line("'<")
+    -- local end_line = vim.fn.line("'>")
+    -- local s = vim.fn.line("v")
+    -- local e = vim.fn.line('.')
+
+        local formatter = require("conform").format({})
+    print(formatter)
+
+    -- if formatter then
+    --     local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+    --     local formatted = formatter(lines)
+    --     vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, formatted)
+    -- end
+end
+
+require("oil").setup({
+    view_options = {
+        show_hidden = true,
+    },
+})
+
+vim.keymap.set({ 'n', 'v' }, 'ff', formatRange)
+
+require("nvim-autopairs").setup({
     filetypes = { 'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'svelte', 'vue', 'tsx', 'jsx',
         'rescript',
         'xml',
         'php',
         'markdown',
-        'astro', 'glimmer', 'handlebars', 'hbs', "htmldjango" }
+        'astro', 'glimmer', 'handlebars', 'hbs', "htmldjango"
+    }
 })
 
 require("tokyonight").setup({
     -- or leave it empty to use the default settings
-    style = "moon",          -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+    style = "night",          -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
     light_style = "day",     -- The theme is used when the background is set to light
-    transparent = false,     -- Enable this to disable setting the background color
+    transparent = true,      -- Enable this to disable setting the background color
     terminal_colors = false, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
     styles = {
         -- Style to be applied to different syntax groups
@@ -342,6 +438,16 @@ vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
+-- cursor middle
+vim.opt.scrolloff = 999
+vim.o.spell = true
+
+
+
+
+
+
+
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
@@ -355,9 +461,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- my keymaps
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', '<leader>pv', ':e #<Enter>', { silent = true })
-vim.keymap.set("n", "<leader>pf", vim.cmd.Ex)
 vim.keymap.set('i', 'ii', '<Esc>', { silent = true })
 
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -373,6 +479,26 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
+
+local previewers = require('telescope.previewers')
+local previewers_utils = require('telescope.previewers.utils')
+
+local max_size = 100000
+local truncate_large_files = function(filepath, bufnr, opts)
+    opts = opts or {}
+
+    filepath = vim.fn.expand(filepath)
+    vim.loop.fs_stat(filepath, function(_, stat)
+        if not stat then return end
+        if stat.size > max_size then
+            local cmd = { "head", "-c", max_size, filepath }
+            previewers_utils.job_maker(cmd, bufnr, opts)
+        else
+            previewers.buffer_previewer_maker(filepath, bufnr, opts)
+        end
+    end)
+end
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -383,6 +509,14 @@ require('telescope').setup {
                 ['<C-d>'] = false,
             },
         },
+        preview = {
+            filesize_hook = function(filepath, bufnr, opts)
+                local max_bytes = 10000
+                local cmd = { "head", "-c", max_bytes, filepath }
+                require('telescope.previewers.utils').job_maker(cmd, bufnr, opts)
+            end
+        },
+        buffer_previewer_maker = truncate_large_files,
     },
 }
 
@@ -407,6 +541,12 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>ss', require('telescope.builtin').builtin, { desc = '[S]earch [S]elect Telescope' })
+vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]eymaps' })
+vim.keymap.set('n', '<leader>s.', require('telescope.builtin').oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -417,12 +557,23 @@ vim.defer_fn(function()
         ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc',
             'vim',
             'bash', 'svelte', 'html', 'htmldjango', 'jsdoc', 'java', 'solidity', 'css', 'dockerfile', 'gomod', 'gosum',
-            'json' },
+            'json', 'htmldjango', 'vue' },
 
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
         auto_install = true,
         autotag = {
             enable = true,
+            enable_rename = true,
+            enable_close = true,
+            enable_close_on_slash = true,
+            filetypes = { 'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'svelte', 'vue', 'tsx',
+                'jsx',
+                'rescript',
+                'xml',
+                'php',
+                'markdown',
+                'astro', 'glimmer', 'handlebars', 'hbs', "htmldjango",
+            },
         },
         highlight = { enable = true },
         indent = { enable = true },
@@ -481,13 +632,11 @@ vim.defer_fn(function()
         },
     }
 end, 0)
-
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -532,6 +681,8 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
         vim.lsp.buf.format()
     end, { desc = 'Format current buffer with LSP' })
+
+    -- Attach tailwindcss colors if tailwind lsp is active
     local tailwind_lsp_filter = {}
     tailwind_lsp_filter["bufnr"] = bufnr
     tailwind_lsp_filter["name"] = "tailwindcss"
@@ -633,32 +784,32 @@ cmp.setup {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
+        ['<C-y>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         },
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_locally_jumpable() then
-                luasnip.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
+        -- ['<Tab>'] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --         cmp.select_next_item()
+        --     elseif luasnip.expand_or_locally_jumpable() then
+        --         luasnip.expand_or_jump()
+        --     else
+        --         fallback()
+        --     end
+        -- end, { 'i', 's' }),
+        -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --         cmp.select_prev_item()
+        --     elseif luasnip.locally_jumpable(-1) then
+        --         luasnip.jump(-1)
+        --     else
+        --         fallback()
+        --     end
+        -- end, { 'i', 's' }),
     },
     sources = {
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        --   { name = 'luasnip' },
     },
 }
 
@@ -676,12 +827,12 @@ vim.opt.sts = 4
 
 
 -- harpoon keymaps
-vim.keymap.set("n", "<leader>mf", function()
-    require("harpoon.mark").add_file()
-end)
-vim.keymap.set("n", "<leader>hr", function()
-    require("harpoon.ui").toggle_quick_menu()
-end)
+local harpoon = require('harpoon')
+
+harpoon:setup()
+
+vim.keymap.set("n", "<leader>hr", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end)
 
 
 -- next greatest remap ever : asbjornHaland
@@ -728,20 +879,45 @@ vim.keymap.set("n", "<leader>nd", function()
     vim.fn.mkdir(new_folder_path)
 end)
 
--- Copilot
-vim.cmd [[imap <silent><script><expr> <C-a> copilot#Accept("\<CR>")]]
-vim.cmd [[highlight CopilotSuggestion guifg=#555555 ctermfg=8]]
+-- -- Copilot
+-- vim.cmd [[imap <silent><script><expr> <C-a> copilot#Accept("\<CR>")]]
+-- vim.cmd [[highlight CopilotSuggestion guifg=#555555 ctermfg=8]]
 
 vim.keymap.set("n", "<leader>lsa", function()
     local str = ""
     str = str .. #vim.lsp.get_active_clients()
     str = str .. ", "
-    for i, t in ipairs(vim.lsp.get_active_clients()) do
+    for _, t in ipairs(vim.lsp.get_active_clients()) do
         str = str .. t.name
         str = str .. ", "
     end
     print(str)
 end)
+
+
+vim.keymap.set("n", "<leader>tsa", function()
+    local str = ""
+    str = str .. ", "
+    local table = require('nvim-treesitter')
+    for _, t in ipairs(table) do
+        str = str .. t.name
+        str = str .. ", "
+    end
+    print(str)
+end)
+
+
+-- undotree
+vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>:UndotreeFocus<CR>")
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+--
+--
+
+-- farsi text
+vim.opt.termbidi = true
 
 -- vim.cmd [[highlight Normal guibg=none]]
 -- vim.cmd [[highlight NonText guibg=none]]
@@ -750,7 +926,7 @@ end)
 
 vim.cmd [[colorscheme tokyonight]]
 
--- undotree
-vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>:UndotreeFocus<CR>")
+
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=4 sts=4 sw=4 et

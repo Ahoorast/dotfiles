@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/Downloads/latex/resume" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/Accuracy-Test" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/Bamie" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/ContactApi" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/Interpreter" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/Recipe-Book" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/TheboBlog" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/cf-clone" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/django_base" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/djangoproject/djangoproject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/dotfiles" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/dotfiles/nvim/pack/github/start/copilot.vim" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/gleem/helloworld" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/kotlin-language-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/mahfamarine" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/semnan/semantic5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/svelte" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Projects/tps" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/abarkelas/abarcode" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/abarkelas/abarkelas" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/abarkelas/abarkelas-code" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/abarkelas/frontend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/abarkelas/jajavabi" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/abarkelas/jajavabi-v2-frontend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bins" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/comp-prog/icpc-cheatsheet" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/i3/i3-gnome" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/interviews/metrix/live-coding-interview" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/automation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/dashboard" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/data-common" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/elastic-utility" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/entrance" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/internal-docs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/learn_kotlin/kotlin-spring-realworld-example-app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/learn_kotlin/spring-boot-kotlin-demo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/panel-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/push-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/stg-metrix" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/metrix/user-identifier" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/newKickstart/kickstart.nvim" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/template" vcs="Git" />
+  </component>
+</project>

@@ -1,0 +1,29 @@
+syntax on
+colorscheme torte
+
+
+set nu
+set autoindent
+set hlsearch
+set ts=4
+set sw=4
+set smartindent
+set smarttab
+set expandtab
+set rnu
+set scrolloff=999
+set spell=true
+set clipboard+=unnamedplus
+
+inore ii <Esc>
+
+let mapleader = " "
+
+nnoremap <leader>vv :e ~/.ideavimrc<CR>
+nnoremap <leader>vr :source ~/.ideavimrc<CR>
+nnoremap <leader>pv :e #<CR>
+
+
+nmap <Leader>hr :action ShowHarpoon<cr>
+nmap <Leader>ha :action AddToHarpoon<cr>
+

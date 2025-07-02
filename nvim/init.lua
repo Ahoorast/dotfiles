@@ -122,6 +122,15 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
 
+    {
+        'Shougo/deoplete.nvim',
+        build = (vim.fn.has('nvim') == 1) and ':UpdateRemotePlugins' or nil,
+        dependencies = vim.fn.has('nvim') == 0 and { 'roxma/nvim-yarp', 'roxma/vim-hug-neovim-rpc' } or nil,
+        config = function()
+            vim.g['deoplete#enable_at_startup'] = 1
+        end,
+    },
+
     -- Detect tabstop and shiftwidth automatically
     'tpope/vim-sleuth',
 
@@ -168,7 +177,7 @@ require('lazy').setup({
     },
 
     -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim',  opts = {} },
+    -- { 'folke/which-key.nvim',  opts = {} },
     {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
         'lewis6991/gitsigns.nvim',
@@ -218,6 +227,7 @@ require('lazy').setup({
     --     end,
     -- },
     --
+    { "nvim-neotest/nvim-nio" },
     {
         "folke/tokyonight.nvim",
         lazy = false,
@@ -307,6 +317,10 @@ require('lazy').setup({
         'stevearc/conform.nvim',
         opts = {},
     },
+    {
+        'Ahoorast/Comrade',
+        branch = 'dev',
+    },
     require 'kickstart.plugins.debug',
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -327,6 +341,8 @@ require("conform").setup({
         -- python = { "isort", "black" },
         -- Use a sub-list to run only the first available formatter
         javascript = { { "prettierd", "prettier" } },
+        svelte = { { "prettierd", "prettier" } },
+        typescript = { { "prettierd", "prettier" } },
     },
 })
 
@@ -337,7 +353,7 @@ local function formatRange()
     -- local s = vim.fn.line("v")
     -- local e = vim.fn.line('.')
 
-        local formatter = require("conform").format({})
+    local formatter = require("conform").format({})
     print(formatter)
 
     -- if formatter then
@@ -551,7 +567,6 @@ vim.keymap.set('n', '<leader><leader>', require('telescope.builtin').buffers, { 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
     require('nvim-treesitter.configs').setup {
         -- Add languages to be installed here that you want installed for treesitter
         ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc',
@@ -560,7 +575,9 @@ vim.defer_fn(function()
             'json', 'htmldjango', 'vue' },
 
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+        sync_install = false,
         auto_install = true,
+        ignore_install = {},
         autotag = {
             enable = true,
             enable_rename = true,
@@ -631,7 +648,6 @@ vim.defer_fn(function()
             },
         },
     }
-end, 0)
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
@@ -694,15 +710,15 @@ end
 
 
 -- document existing key chains
-require('which-key').register {
-    ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-    ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-    ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-    ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-    ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-    ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-    ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-}
+-- require('which-key').register {
+--     ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+--     ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+--     ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
+--     ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
+--     ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+--     ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+--     ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+-- }
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
@@ -879,9 +895,9 @@ vim.keymap.set("n", "<leader>nd", function()
     vim.fn.mkdir(new_folder_path)
 end)
 
--- -- Copilot
--- vim.cmd [[imap <silent><script><expr> <C-a> copilot#Accept("\<CR>")]]
--- vim.cmd [[highlight CopilotSuggestion guifg=#555555 ctermfg=8]]
+-- Copilot
+vim.cmd [[imap <silent><script><expr> <C-a> copilot#Accept("\<CR>")]]
+vim.cmd [[highlight CopilotSuggestion guifg=#555555 ctermfg=8]]
 
 vim.keymap.set("n", "<leader>lsa", function()
     local str = ""
@@ -919,14 +935,30 @@ vim.opt.undofile = true
 -- farsi text
 vim.opt.termbidi = true
 
--- vim.cmd [[highlight Normal guibg=none]]
--- vim.cmd [[highlight NonText guibg=none]]
--- vim.cmd [[highlight Normal ctermbg=none]]
--- vim.cmd [[highlight NonText ctermbg=none]]
+vim.cmd [[highlight Normal guibg=none]]
+vim.cmd [[highlight NonText guibg=none]]
+vim.cmd [[highlight Normal ctermbg=none]]
+vim.cmd [[highlight NonText ctermbg=none]]
 
 vim.cmd [[colorscheme tokyonight]]
 
 
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  -- per_filetype = {
+  --   ["html"] = {
+  --     enable_close = false
+  --   }
+  -- }
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=4 sts=4 sw=4 et
+-- vsim: ts=4 sts=4 sw=4 et

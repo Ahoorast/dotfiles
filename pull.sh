@@ -4,9 +4,9 @@ cp ~/.zshrc .zshrc
 cp ~/.tmux.conf .tmux.conf
 cp ~/.vimrc .vimrc
 cp ~/.config/i3/config i3/config
-cp ~/.config/nvim/init.lua nvim/init.lua
-cp ~/.config/nvim/lua nvim/lua -r
-cp ~/.config/nvim/spell nvim/spell -r
+cp ~/.config/nvim/init.lua nvim/
+cp ~/.config/nvim/lua nvim/ -r
+cp ~/.config/nvim/spell nvim/ -r
 cp ~/.scripts . -r
 cp ~/.idea . -r
 cp ~/.ideavimrc .ideavimrc

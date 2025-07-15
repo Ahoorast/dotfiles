@@ -140,6 +140,7 @@ alias jel="/home/ahoora/.ialiastheseappimageorclistothingstotypeinterminal/ideaI
 alias jmeter="/home/ahoora/Downloads/apache-jmeter-5.6.3/bin/jmeter"
 alias docker="sudo docker"
 alias lazydocker="sudo /home/linuxbrew/.linuxbrew/bin/lazydocker"
+alias languages="setxkbmap -layout \"us,ir\" -option \"grp:alt_shift_toggle"
 #
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
@@ -147,6 +148,7 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 #
 # tmux aliases
 alias tms="tmux new -s"
+alias tmps="source ~/.scripts/initTmuxPath.sh"
 alias tma="source ~/.scripts/tmuxer.sh"
 alias wifishare="bash ~/.scripts/wifishare/run.sh"
 

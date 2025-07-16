@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
-p=$(pwd)
+sessionName=$(pwd | tr '.' '_')
 
-tmux new -s $p
+echo $sessionName
+
+if tmux has-session -t="$sessionName" 2>/dev/null; then
+    tmux attach -t "$sessionName"
+else
+    tmux new -s "$sessionName"
+fi
+

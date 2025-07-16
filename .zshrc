@@ -151,6 +151,7 @@ alias tms="tmux new -s"
 alias tmps="source ~/.scripts/initTmuxPath.sh"
 alias tma="source ~/.scripts/tmuxer.sh"
 alias wifishare="bash ~/.scripts/wifishare/run.sh"
+alias sesh="source ~/.scripts/sesh.sh"
 
 #navigation
 alias gof="source ~/.scripts/navigation.sh"

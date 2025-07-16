@@ -12,4 +12,3 @@ if [[ -z $selected ]]; then
 fi
 
 tmux switch-client -t $selected || tmux attach -t $selected
-#cd $selected

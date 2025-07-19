@@ -38,6 +38,9 @@ exec --no-startup-id dex-autostart --autostart --environment i3
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+exec --no-startup-id ~/.scripts/i3/i3-battery-popup/i3-battery-popup 
+
+
 # ~/.config/i3/config
 # Threshold max window size, depends on your display size
 # Tell every window to behave centered.

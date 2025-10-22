@@ -42,6 +42,9 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Disable automatic tab/indent detection by vim-sleuth so our ts=4 settings stick
+vim.g.sleuth_automatic = 0
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -961,4 +964,4 @@ require('nvim-ts-autotag').setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vsim: ts=4 sts=4 sw=4 et
+-- vim: ts=4 sts=4 sw=4 et

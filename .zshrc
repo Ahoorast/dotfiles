@@ -140,7 +140,6 @@ alias jel="/home/ahoora/.ialiastheseappimageorclistothingstotypeinterminal/ideaI
 alias jmeter="/home/ahoora/Downloads/apache-jmeter-5.6.3/bin/jmeter"
 alias docker="sudo docker"
 alias lazydocker="sudo /home/linuxbrew/.linuxbrew/bin/lazydocker"
-alias languages="setxkbmap -layout \"us,ir\" -option \"grp:alt_shift_toggle"
 #
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
@@ -148,10 +147,10 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 #
 # tmux aliases
 alias tms="tmux new -s"
-alias tmps="source ~/.scripts/initTmuxPath.sh"
 alias tma="source ~/.scripts/tmuxer.sh"
 alias wifishare="bash ~/.scripts/wifishare/run.sh"
-alias sesh="source ~/.scripts/sesh.sh"
+alias addpath="source ~/.scripts/path.sh"
+
 
 #navigation
 alias gof="source ~/.scripts/navigation.sh"
@@ -197,4 +196,4 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_V
 [[ -s "/home/ahoora/.gvm/scripts/gvm" ]] && source "/home/ahoora/.gvm/scripts/gvm"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-alias x="echo hi"
+export PATH="$PATH:/home/ahoora/.ialiastheseappimageorclistothingstotypeinterminal/DataGrip-2025.2.4/bin"

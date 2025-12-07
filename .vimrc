@@ -1,5 +1,5 @@
 syntax on
-colorscheme torte
+colorscheme slate
 
 
 set nu

@@ -197,3 +197,5 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_V
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$PATH:/home/ahoora/.ialiastheseappimageorclistothingstotypeinterminal/DataGrip-2025.2.4/bin"
+export PATH="$PATH:$HOME/.duckdb/cli/latest"
+export PATH="$PATH:/home/ahoora/.scripts"

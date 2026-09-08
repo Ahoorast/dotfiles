@@ -1,0 +1,9 @@
+tags
+test.sh
+.luarc.json
+.DS_Store
+
+# This is a personal config tracked inside the dotfiles repo, so unlike the
+# upstream kickstart repo we DO track:
+#   - spell/            (personal dictionary; vim.o.spell = true)
+#   - nvim-pack-lock.json (reproducible plugin versions -- see :help vim.pack-lockfile)

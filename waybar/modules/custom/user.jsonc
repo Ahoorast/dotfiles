@@ -1,0 +1,9 @@
+{
+	"custom/user": {
+		"format": "󰅌",
+		"tooltip-format": "Clipboard history (right-click to clear)",
+		"on-click": "~/.config/hypr/clipboard-pick.sh",
+		"on-click-right": "cliphist wipe",
+		"cursor": true
+	}
+}

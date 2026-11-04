@@ -1,0 +1,29 @@
+{
+	"hyprland/workspaces": {
+		"persistent-workspaces": {
+			"*": 5
+		},
+		"format": "{name} {windows}",
+		"format-window-separator": " ",
+		"window-rewrite-default": "󰣆",
+		"window-rewrite": {
+			"class<firefox>|class<[Ff]irefox.*>": "󰈹",
+			"class<google-chrome>|class<[Cc]hrom.*>": "󰊯",
+			"class<com.mitchellh.ghostty>|class<foot>|class<kitty>|class<[Aa]lacritty>": "󰆍",
+			"class<org.telegram.desktop>": "",
+			"class<discord>|class<[Vv]esktop>": "󰙯",
+			"class<[Ss]potify>": "󰓇",
+			"class<[Cc]ode>|class<code-url-handler>": "󰨞",
+			"title<.*n?vim.*>|class<.*n?vim.*>": "",
+			"class<mpv>": "󰐊",
+			"class<org.pwmt.zathura>": "󰈦",
+			"class<[Pp]avucontrol>|class<org.pulseaudio.pavucontrol>": "󰕾",
+			"class<v2rayN>": "󰖂",
+			"class<jetbrains-.*>": "󰆼",
+			"class<mongodb-compass>": ""
+		},
+		"on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'r+1' })\"",
+		"on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({ workspace = 'r-1' })\"",
+		"cursor": true
+	}
+}

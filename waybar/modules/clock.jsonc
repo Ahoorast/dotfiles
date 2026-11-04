@@ -1,0 +1,22 @@
+{
+	"clock#date": {
+		"format": "󰸗 {:%Y-%m-%d %H:%M:%S}",
+		"interval": 1,
+		"actions": {
+			"on-click": "mode"
+		},
+
+		"calendar": {
+			"mode": "month",
+			"mode-mon-col": 3,
+			"format": {
+				"months": "<span alpha='100%'>{}</span>",
+				"days": "<span alpha='85%'>{}</span>",
+				"weekdays": "<span alpha='60%'><i>{}</i></span>",
+				"today": "<span alpha='100%'><u>{}</u></span>"
+			}
+		},
+
+		"tooltip-format": "{calendar}"
+	}
+}

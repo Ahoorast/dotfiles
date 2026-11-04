@@ -1,0 +1,6 @@
+default-timeout=5000
+on-button-left=dismiss
+on-button-right=invoke-default-action
+
+[urgency=critical]
+default-timeout=0

@@ -130,6 +130,8 @@ mklog-all() {
 }
 
 
+alias c="export HTTPS_PROXY=\"http://127.0.0.1:10808\";export HTTP_PROXY=\"http://127.0.0.1:10808\";claude;"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

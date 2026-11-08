@@ -16,6 +16,8 @@ sync ~/.config/mako/ mako/
 sync ~/.config/ghostty/ ghostty/
 sync ~/.config/systemd/user/hyprland-session.target systemd/user/
 sync ~/.config/herdr/config.toml herdr/
+sync ~/.claude/settings.json claude/
+sync ~/.claude/hooks/herdr-tab-title.sh claude/hooks/
 
 IDEA=~/.config/JetBrains/IntelliJIdea2026.1
 sync "$IDEA/keymaps/" jetbrains/intellij/keymaps/
